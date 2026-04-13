@@ -35,7 +35,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        placeholder={placeholder? placeholder:`${name} is required`}
+        placeholder={placeholder}
         className={`${styles.input} ${
           error ? styles.inputError : ''
         } ${inputClass}`}

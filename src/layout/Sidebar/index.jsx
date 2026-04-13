@@ -43,7 +43,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         { to: "/form", icon: Form, label: "Form" },
         { to: "/products", icon: KeyboardMusic, label: "Products" },
         { to: "/users", icon: Users, label: "Users" },
-        { to: "/settings", icon: Settings, label: "Settings" },
+        { to: "/components", icon: Settings, label: "Components" },
     ];
 
     return (

@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import ProductCard from './ProductCard';
 import SkeletonCard from './SkeletonCard';
 import CategoryFilter from './CategoryFilter';
-import { useDebounce } from '../../hooks';``
+import { useDebounce } from '../../hooks';import { Button } from '../../components';
+``
 
 const API_URL = 'https://dummyjson.com/products?limit=0';
 const BATCH_SIZE = 8;
@@ -144,12 +145,8 @@ const ProductListing = () => {
         {error && !loading && (
           <div className="text-center py-20">
             <p className="text-red-600 text-xl mb-4">{error}</p>
-            <button
-              onClick={fetchProducts}
-              className="px-8 py-3 bg-blue-600 text-white rounded-3xl hover:bg-blue-700"
-            >
-              Retry
-            </button>
+            <Button variant='primary'  onClick={fetchProducts}>Retry</Button>
+         
           </div>
         )}
 
