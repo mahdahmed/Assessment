@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Button, InputField } from "../../components";
 import { validateEmail, validateName, validatePhone } from "../../utils";
 import { Check } from "lucide-react";
@@ -139,25 +139,55 @@ const Form = () => {
     setSubmitted(false);
   };
 
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (submitted) return;
+
+      if (e.key === "Enter") {
+        // Trigger the primary action (Next or Submit) if enabled
+        if (step === 1 && isStep1Valid) {
+          handleNext();
+          e.preventDefault();
+        } else if (step === 2) {
+          // Step 2 has no validation, Next is always enabled
+          handleNext();
+          e.preventDefault();
+        } else if (step === 3 && isStep1Valid) {
+          handleSubmit();
+          e.preventDefault();
+        }
+      } else if (e.key === "Escape") {
+        if (step > 1) {
+          handleBack();
+          e.preventDefault();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [step, isStep1Valid, submitted, handleNext, handleBack, handleSubmit]);
+
   // Success state
   if (submitted) {
     return (
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="mb-4 text-green-500 flex justify-center">
-        <Check className="h-16 w-16" />
+          <Check className="h-16 w-16" />
         </div>
         <h2 className="text-2xl font-bold mb-2">Onboarding Complete!</h2>
         <p className="text-gray-600 mb-6">
           Thank you for providing your information. Your preferences have been
           saved successfully.
         </p>
-        
-        <Button variant="primary" onClick={handleReset}>Start over</Button>
+        <Button variant="primary" onClick={handleReset}>
+          Start over
+        </Button>
       </div>
     );
   }
 
-                console.log("🚀 ~ Form ~ formData.toggles:", formData.toggles)
   return (
     <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
       {/* Step Progress Indicator */}
@@ -333,15 +363,9 @@ const Form = () => {
               <h3 className="font-medium text-gray-700">
                 Personal Information
               </h3>
-              <p className="text-gray-600">
-                Name: {formData.name}
-              </p>
-              <p className="text-gray-600">
-                Email: {formData.email}
-              </p>
-              <p className="text-gray-600">
-                Phone: {formData.phone}
-              </p>
+              <p className="text-gray-600">Name: {formData.name}</p>
+              <p className="text-gray-600">Email: {formData.email}</p>
+              <p className="text-gray-600">Phone: {formData.phone}</p>
             </div>
             <div>
               <h3 className="font-medium text-gray-700">Preferences</h3>
@@ -379,14 +403,26 @@ const Form = () => {
 
       {/* Navigation Buttons */}
       <div className="flex justify-between mt-8 pt-4 border-t">
-        <Button variant="white" onClick={handleBack} disabled={step === 1}>Back</Button>
+        <Button variant="white" onClick={handleBack} disabled={step === 1}>
+          Back
+        </Button>
 
         {step < 3 ? (
-            <Button variant="primary" onClick={handleNext} disabled={step === 1 && !isStep1Valid}>Next</Button>
-      
+          <Button
+            variant="primary"
+            onClick={handleNext}
+            disabled={step === 1 && !isStep1Valid}
+          >
+            Next
+          </Button>
         ) : (
-            <Button variant="success" onClick={handleSubmit} disabled={!isStep1Valid}>Submit</Button>
-       
+          <Button
+            variant="success"
+            onClick={handleSubmit}
+            disabled={!isStep1Valid}
+          >
+            Submit
+          </Button>
         )}
       </div>
     </div>
