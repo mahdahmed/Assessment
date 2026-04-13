@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 import DefaultLayout from "./layout";
-import { Dashboard } from "./pages";
+import { Dashboard, Form } from "./pages";
 
 function App() {
   return (
@@ -10,6 +10,8 @@ function App() {
       <Routes>
         <Route element={<DefaultLayout />}>
         <Route index element={<Dashboard />} />
+        <Route path="form" element={<Form />} />
+
     
         </Route>  
       </Routes>
