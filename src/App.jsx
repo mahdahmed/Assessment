@@ -1,12 +1,18 @@
-import './App.css'
-import DefaultLayout from './layout'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
+import DefaultLayout from "./layout";
 
 function App() {
   return (
-    <>
-     <DefaultLayout/>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<DefaultLayout />}>
+    
+        </Route>  
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
